@@ -55,3 +55,16 @@ path = "assets/www/index.zip" # Path to the WebUI.
 # home = "assets/models/hf"
 # lib = "assets/ort/onnxruntime.dll"  # Only used under windows.
 # name = { MultilingualE5Small = {} }
+
+[opencog] # OpenCog Hyperon inference engine configuration
+enabled = true # Enable OpenCog inference engine
+
+[opencog.atomspace] # AtomSpace configuration
+initial_size = 1000 # Initial AtomSpace size
+persistence = false # Enable persistence
+# persistence_path = "assets/atomspace.db" # Path to persistence file
+
+[opencog.inference] # Inference engine configuration
+max_steps = 1000 # Maximum inference steps
+timeout_ms = 5000 # Timeout for inference operations (milliseconds)
+optimize_patterns = true # Enable pattern matching optimization

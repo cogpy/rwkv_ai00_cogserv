@@ -33,6 +33,7 @@ safetensors.workspace = true
 serde.workspace = true
 tokio.workspace = true
 web-rwkv.workspace = true
+ai00-opencog.workspace = true
 
 [dependencies.salvo]
 features = ["oapi"]

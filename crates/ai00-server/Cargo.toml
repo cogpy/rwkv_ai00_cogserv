@@ -32,6 +32,7 @@ toml = "0.9"
 zip = "5.1"
 
 ai00-core.workspace = true
+ai00-opencog.workspace = true
 anyhow.workspace = true
 derivative.workspace = true
 flume.workspace = true
