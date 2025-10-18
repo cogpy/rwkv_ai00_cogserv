@@ -25,6 +25,7 @@ pub struct Config {
     pub web: Option<WebOption>,
     #[cfg(feature = "embed")]
     pub embed: Option<EmbedOption>,
+    pub opencog: Option<ai00_opencog::OpenCogConfig>,
 }
 
 impl TryFrom<Config> for ReloadRequest {

@@ -9,6 +9,7 @@ pub mod auth;
 pub mod file;
 pub mod model;
 pub mod oai;
+pub mod opencog;
 
 // pub use adapter::adapters;
 // pub use file::{dir, load_config, models, save_config, unzip};

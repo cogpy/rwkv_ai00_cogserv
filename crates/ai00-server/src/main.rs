@@ -186,6 +186,14 @@ async fn main() {
     #[cfg(not(feature = "embed"))]
     let embed: Option<()> = None;
 
+    // Initialize OpenCog if configured
+    if let Some(ref opencog_config) = config.opencog {
+        match ai00_opencog::initialize_opencog(opencog_config).await {
+            Ok(_) => log::info!("OpenCog inference engine initialized successfully"),
+            Err(err) => log::error!("Failed to initialize OpenCog: {}", err),
+        }
+    }
+
     match config.clone().try_into() {
         Ok(request) => {
             let request = ThreadRequest::Reload {
@@ -288,6 +296,16 @@ async fn main() {
     #[cfg(not(feature = "embed"))]
     let api_embed = Router::new();
 
+    // OpenCog API routes
+    let api_opencog = Router::new()
+        .push(Router::with_path("/opencog/atoms/add").post(api::opencog::add_atom))
+        .push(Router::with_path("/opencog/atoms/remove").post(api::opencog::remove_atom))
+        .push(Router::with_path("/opencog/atoms/query").post(api::opencog::query_atoms))
+        .push(Router::with_path("/opencog/atoms/clear").post(api::opencog::clear_atomspace))
+        .push(Router::with_path("/opencog/stats").get(api::opencog::get_stats))
+        .push(Router::with_path("/opencog/evaluate").post(api::opencog::evaluate_expression))
+        .push(Router::with_path("/opencog/infer").post(api::opencog::perform_inference));
+
     let app = Router::new()
         //.hoop(CorsLayer::permissive())
         .hoop(Logger::new())
@@ -300,7 +318,8 @@ async fn main() {
             Router::with_path("/api")
                 .push(Router::with_path("/auth/exchange").post(api::auth::exchange))
                 .push(api_router)
-                .push(api_embed),
+                .push(api_embed)
+                .push(api_opencog),
         )
         .push(Router::with_path("/admin").push(admin_router));
 
